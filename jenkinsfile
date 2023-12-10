@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Información del Sistema') {
+            steps {
+                script {
+                    echo 'Mostrando información del sistema...'
+                    sh 'uname -a' // Muestra información del kernel
+                    sh 'lsb_release -a' // Muestra información de la distribución
+                    sh 'df -h' // Muestra el uso del espacio en disco
+                    sh 'free -h' // Muestra el uso de memoria
+                    sh 'cat /proc/cpuinfo' // Muestra información de la CPU
+                    sh 'lscpu' // Otra forma de mostrar información de la CPU
+                    sh 'lshw' // Muestra información detallada del hardware
+                    sh 'lsblk' // Muestra información sobre los dispositivos de bloques
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            echo 'El pipeline se ejecutó exitosamente!'
+        }
+        failure {
+            echo 'El pipeline falló. Por favor, revisa los registros para obtener más detalles.'
+        }
+    }
+}
